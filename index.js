@@ -36,7 +36,7 @@ function load(file, options) {
             _.delay(function() {
                 const req = requestModule({ har: entry.request, timeout: options.timeout }, function(error, response, body) {
                     if(response && options.onResponse)
-                        options.onResponse(response, entry.request);
+                        options.onResponse(response, entry.request, body);
                 });
                 req.on('error', function(error) {
                     if (options.onError)

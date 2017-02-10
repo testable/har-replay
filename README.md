@@ -27,7 +27,7 @@ Load and replay the request in the HAR file found at local path `file`. A delay 
 
 * `timeout`: A timeout (milliseconds) to wait for a reply. Defaults to 1 minute.
 * `beforeRequest`: A `function(request) { ... }` to manipulate the request before it is replayed.
-* `onResponse`: A `function(response, request) { ... }` to process the response that results from a replayed request.
+* `onResponse`: A `function(response, request, body) { ... }` to process the response that results from a replayed request. `body` refers to the response body.
 * `onFinish`: A callback function that gets called once all requests have been replayed and all responses (or errors) have been received.
 * `onError`: A `function(error, request) { ... }` callback when any error occurs during replay.
 
@@ -39,7 +39,7 @@ harReplay.load('example.har', {
 	beforeRequest: function(request) {
 		request.headers['Some-New-Header'] = 'abc';
 	},
-	onResponse: function(response, request) {
+	onResponse: function(response, request, body) {
 		console.log('Response status code for ' + request.url + ': ' + response.statusCode);
 	},
 	onFinish: function() {
