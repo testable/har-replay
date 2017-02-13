@@ -27,23 +27,20 @@ function load(file, options) {
 
         const firstTime = moment(har.log.entries[0].startedDateTime);
         _.forEach(har.log.entries, function(entry) {
-            if (options.beforeRequest)
-                options.beforeRequest(entry.request);
             const delay = moment(entry.startedDateTime).diff(firstTime, 'miliseconds');
 
             if (entry.request.postData && _.isUndefined(entry.request.postData.params))
                 entry.request.postData.params = [];
             _.delay(function() {
-                const req = requestModule({ har: entry.request, timeout: options.timeout }, function(error, response, body) {
-                    if(response && options.onResponse)
+                if (options.beforeRequest)
+                    options.beforeRequest(entry.request);
+                requestModule({ har: entry.request, timeout: options.timeout }, function(error, response, body) {
+                    if (error !== null) {
+                        if (options.onError)
+                            options.onError(error, entry.request);
+                    } else if(response && options.onResponse) {
                         options.onResponse(response, entry.request, body);
-                });
-                req.on('error', function(error) {
-                    if (options.onError)
-                        options.onError(error, entry.request);
-                    onFinish();
-                });
-                req.on('end', function() {
+                    }
                     onFinish();
                 });
             }, delay);
