@@ -30,6 +30,7 @@ Load and replay the request in the HAR file found at local path `file`. A delay 
 * `onResponse`: A `function(response, request, body) { ... }` to process the response that results from a replayed request. `body` refers to the response body.
 * `onFinish`: A callback function that gets called once all requests have been replayed and all responses (or errors) have been received.
 * `onError`: A `function(error, request) { ... }` callback when any error occurs during replay.
+* `replayCachedEntries`: Whether or not to replay requests where the response was loaded from the browser cache. By default this is `false`.
 
 Full Example:
 
