@@ -43,8 +43,10 @@ function load(file, options) {
                 _.delay(function() {
                     if (options.beforeRequest) {
                         const cont = options.beforeRequest(entry.request);
-                        if (_.isBoolean(cont) && !cont)
+                        if (_.isBoolean(cont) && !cont) {
+                            onFinish();
                             return;
+                        }
                     }
                     requestModule({ har: entry.request, timeout: options.timeout }, function(error, response, body) {
                         if (error !== null) {
@@ -56,6 +58,8 @@ function load(file, options) {
                         onFinish();
                     });
                 }, delay);
+            } else {
+                onFinish();
             }
         });
     });
