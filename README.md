@@ -26,7 +26,7 @@ Load and replay the request in the HAR file found at local path `file`. A delay 
 **options**
 
 * `timeout`: A timeout (milliseconds) to wait for a reply. Defaults to 1 minute.
-* `beforeRequest`: A `function(request) { ... }` to manipulate the request before it is replayed.
+* `beforeRequest`: A `function(request) { ... }` to manipulate the request before it is replayed. If this method returns `false` then the request will not be replayed.
 * `onResponse`: A `function(response, request, body) { ... }` to process the response that results from a replayed request. `body` refers to the response body.
 * `onFinish`: A callback function that gets called once all requests have been replayed and all responses (or errors) have been received.
 * `onError`: A `function(error, request) { ... }` callback when any error occurs during replay.

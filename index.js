@@ -35,14 +35,17 @@ function load(file, options) {
 
         const firstTime = moment(har.log.entries[0].startedDateTime);
         _.forEach(har.log.entries, function(entry) {
-            if (!isCachedRequest(entry) || options.replayCachedEntries) {
+            if (options.replayCachedEntries || !isCachedRequest(entry)) {
                 const delay = moment(entry.startedDateTime).diff(firstTime, 'miliseconds');
 
                 if (entry.request.postData && _.isUndefined(entry.request.postData.params))
                     entry.request.postData.params = [];
                 _.delay(function() {
-                    if (options.beforeRequest)
-                        options.beforeRequest(entry.request);
+                    if (options.beforeRequest) {
+                        const cont = options.beforeRequest(entry.request);
+                        if (_.isBoolean(cont) && !cont)
+                            return;
+                    }
                     requestModule({ har: entry.request, timeout: options.timeout }, function(error, response, body) {
                         if (error !== null) {
                             if (options.onError)
