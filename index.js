@@ -41,10 +41,12 @@ function load(file, options) {
                 if (entry.request.postData && _.isUndefined(entry.request.postData.params))
                     entry.request.postData.params = [];
                 _.delay(function() {
-                    _.forEach(entry.request.headers, function(val, name) {
-                        if (name.indexOf(':') === 0)
-                            delete entry.request.headers[name];
+                    const headers = [];
+                    _.forEach(entry.request.headers, function(header) {
+                        if (header.name.indexOf(':') !== 0)
+                            headers.push(header);
                     });
+                    entry.request.headers = headers;
                     if (options.beforeRequest) {
                         const cont = options.beforeRequest(entry.request);
                         if (_.isBoolean(cont) && !cont) {
