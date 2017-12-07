@@ -41,6 +41,10 @@ function load(file, options) {
                 if (entry.request.postData && _.isUndefined(entry.request.postData.params))
                     entry.request.postData.params = [];
                 _.delay(function() {
+                    _.forEach(entry.request.headers, function(val, name) {
+                        if (name.indexOf(':') === 0)
+                            delete entry.request.headers[name];
+                    });
                     if (options.beforeRequest) {
                         const cont = options.beforeRequest(entry.request);
                         if (_.isBoolean(cont) && !cont) {
