@@ -1,6 +1,6 @@
 {
   "name": "har-replay",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Utility to replay a HAR file",
   "author": "Avi Stramer",
   "keywords": [

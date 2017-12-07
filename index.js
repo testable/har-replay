@@ -5,14 +5,14 @@ const _ = require('lodash');
 
 function isCachedRequest(entry) {
     var response = entry.response;
-    var resBodySize = Math.max(0, response.bodySize);
+    var resBodySize = Math.max(0, response.bodySize || 0, response._transferSize || 0);
     return (response.status == 304 || (resBodySize === 0 && response.content && response.content.size > 0));
 };
 
 function load(file, options) {
     options = options || {};
     options.timeout = _.isNumber(options.timeout) ? options.timeout : 60000;
-    options.replayCachedEntries = _.isBoolean(options.replayCachedEntries) ? replayCachedEntries : false;
+    options.replayCachedEntries = _.isBoolean(options.replayCachedEntries) ? options.replayCachedEntries : false;
 
     const requestModule = options.request || request;
 
