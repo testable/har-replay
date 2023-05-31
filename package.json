@@ -1,6 +1,6 @@
 {
   "name": "har-replay",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Utility to replay a HAR file",
   "author": "Avi Stramer",
   "keywords": [
@@ -14,7 +14,7 @@
   },
   "main": "index.js",
   "dependencies": {
-    "axios": "^1.3.6",
+    "axios": "^0.27.2",
     "form-data": "^4.0.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.4"
